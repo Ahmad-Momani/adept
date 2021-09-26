@@ -209,7 +209,7 @@ register(id='FingerPoseMuscleRandom-v0',
 # Hand-Joint posing ==============================
 
 # Remove this when the ASL envs stablizes
-register(id='HandPoseAMuscleFixed-v0',
+register(id='HandPoseMuscleFixed-v0',
         entry_point='adept.envs.biomechanics.pose_v0:PoseEnvV0',
         max_episode_steps=100,
         kwargs={
@@ -271,6 +271,40 @@ register(id='HandPoseMuscleRandom-v0',
         }
     )
 
+# Hand-Joint Reaching ==============================
+register(id='HandReachMuscleFixed-v0',
+        entry_point='adept.envs.biomechanics.reach_v0:ReachEnvV0',
+        max_episode_steps=100,
+        kwargs={
+            'model_path': curr_dir+'/assets/hand/2nd_hand_pose.mjb',
+            'target_reach_range': {
+                'THtip': ((-.24, -.22, 1.02), (-.24, -.22, 1.02)),
+                'IFtip': ((-.22, -.22, 1.02), (-.22, -.22, 1.02)),
+                'MFtip': ((-.21, -.22, 1.02), (-.21, -.22, 1.02)),
+                'RFtip': ((-.20, -.22, 1.02), (-.20, -.22, 1.02)),
+                'LFtip': ((-.19, -.22, 1.02), (-.19, -.22, 1.02)),
+                },
+            'normalize_act': True,
+            'far_th': 0.044
+        }
+    )
+
+register(id='HandReachMuscleRandom-v0',
+    entry_point='adept.envs.biomechanics.reach_v0:ReachEnvV0',
+    max_episode_steps=100,
+    kwargs={
+        'model_path': curr_dir+'/assets/hand/2nd_hand_pose.mjb',
+        'target_reach_range': {
+            'THtip': ((-.24, -.24, 1.01), (-.19, -.19, 1.04)),
+            'IFtip': ((-.24, -.24, 1.01), (-.19, -.19, 1.04)),
+            'MFtip': ((-.24, -.24, 1.01), (-.19, -.19, 1.04)),
+            'RFtip': ((-.24, -.24, 1.01), (-.19, -.19, 1.04)),
+            'LFtip': ((-.14, -.24, 1.01), (-.19, -.19, 1.04)),
+            },
+        'normalize_act': True,
+        'far_th': 0.044
+    }
+)
 
 # Hand-Joint key turn ==============================
 register(id='HandKeyTurnFixed-v0',
@@ -337,6 +371,15 @@ register(id='HandPenTwirlRandom-v0',
 # Baoding ==============================
 register(id='BaodingFixed-v1',
         entry_point='adept.envs.biomechanics.baoding_v1:BaodingFixedEnvV1',
+        max_episode_steps=200,
+        kwargs={
+            'model_path': curr_dir+'/assets/hand/2nd_hand_baoding.mjb',
+            'normalize_act': True,
+            'reward_option': 0,
+        }
+    )
+register(id='BaodingRandom-v1',
+        entry_point='adept.envs.biomechanics.baoding_v1:BaodingRandomEnvV1',
         max_episode_steps=200,
         kwargs={
             'model_path': curr_dir+'/assets/hand/2nd_hand_baoding.mjb',

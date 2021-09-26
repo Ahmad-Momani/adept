@@ -22,6 +22,7 @@ class ReachEnvV0(BaseV0):
                 seed = None,
                 obs_keys:list = DEFAULT_OBS_KEYS,
                 weighted_reward_keys:dict = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+                far_th = .35,
                 **kwargs,
             ):
 
@@ -43,10 +44,13 @@ class ReachEnvV0(BaseV0):
                 normalize_act=normalize_act,
                 obs_keys=obs_keys,
                 weighted_reward_keys=weighted_reward_keys,
-                seed=seed)
+                seed=seed,
+                far_th = far_th
+                )
 
 
     def _setup(self,
+            far_th:int,
             normalize_act:bool,
             target_reach_range:dict,
             obs_keys:list,
@@ -57,6 +61,7 @@ class ReachEnvV0(BaseV0):
             config_path = None,
         ):
 
+        self.far_th = far_th
         self.target_reach_range = target_reach_range
 
         super()._setup(obs_keys=obs_keys,
@@ -106,8 +111,7 @@ class ReachEnvV0(BaseV0):
     def get_reward_dict(self, obs_dict):
         reach_dist = np.linalg.norm(obs_dict['reach_err'], axis=-1)
         act_mag = np.linalg.norm(self.obs_dict['act'], axis=-1)/self.sim.model.na if self.sim.model.na !=0 else 0
-        far_th = .35*len(self.tip_sids)
-
+        far_th = self.far_th*len(self.tip_sids) if np.squeeze(obs_dict['t'])>2*self.dt else np.inf
         rwd_dict = collections.OrderedDict((
             # Optional Keys
             ('reach',   -1.*reach_dist),
@@ -123,10 +127,16 @@ class ReachEnvV0(BaseV0):
         rwd_dict['dense'] = np.sum([wt*rwd_dict[key] for key, wt in self.rwd_keys_wt.items()], axis=0)
         return rwd_dict
 
-    def reset(self):
+    # generate a valid target
+    def generate_target_pose(self):
         for site, span in self.target_reach_range.items():
             sid =  self.sim.model.site_name2id(site+'_target')
             self.sim.model.site_pos[sid] = self.np_random.uniform(high=span[0], low=span[1])
+        self.sim.forward()
+
+
+    def reset(self):
+        self.generate_target_pose()
         self.robot.sync_sims(self.sim, self.sim_obsd)
         obs = super().reset()
         return obs
