@@ -16,7 +16,7 @@ setup(
     description='environments simulated in MuJoCo',
     long_description=read('README.md'),
     url='https://github.com/vikashplus/adept.git',
-    author='Movement Control Lab, UW',
+    author='Adept Authors - Vikash Kumar (Facebook AI), Vittorio Caggiano (Facebook AI), Huawei Wang (University of Twente), Guillaume Durandau (University of Twente), Massimo Sartori (University of Twente)',
     install_requires=[
         'click', 'gym==0.13', 'mujoco-py<2.1,>=2.0', 'termcolor',
     ],
