@@ -217,6 +217,7 @@ register(id='HandPoseMuscleFixed-v0',
             'viz_site_targets': ('THtip','IFtip','MFtip','RFtip','LFtip'),
             'target_jnt_value': np.array([0, 0, 0, -0.0904, 0.0824475, -0.681555, -0.514888, 0, -0.013964, -0.0458132, 0, 0.67553, -0.020944, 0.76979, 0.65982, 0, 0, 0, 0, 0.479155, -0.099484, 0.95831, 0]),
             'normalize_act': True,
+            'pose_thd': .7,
             'reset_type': "init",        # none, init, random
             'target_type': 'fixed',      # switch / generate/ fixed
         }
@@ -247,7 +248,8 @@ for k in ASL_qpos.keys():
                 'viz_site_targets': ('THtip','IFtip','MFtip','RFtip','LFtip'),
                 'target_jnt_value': np.array(ASL_qpos[k],'float'),
                 'normalize_act': True,
-                'reset_type': "none",        # none, init, random
+                'pose_thd': .7,
+                'reset_type': "init",        # none, init, random
                 'target_type': 'fixed',      # switch / generate/ fixed
             }
     )
@@ -266,7 +268,8 @@ register(id='HandPoseMuscleRandom-v0',
             'viz_site_targets': ('THtip','IFtip','MFtip','RFtip','LFtip'),
             'target_jnt_range': Rpos,
             'normalize_act': True,
-            'reset_type': "init",        # none, init, random
+            'pose_thd': .7,
+            'reset_type': "random",         # none, init, random
             'target_type': 'generate',      # switch / generate/ fixed
         }
     )
@@ -322,7 +325,8 @@ register(id='HandKeyTurnRandom-v0',
         kwargs={
             'model_path': curr_dir+'/assets/hand/2nd_hand_Index_Thumb_keyturn.mjb',
             'normalize_act': True,
-            'key_init_range':(-np.pi/2, np.pi/2)
+            'key_init_range':(-np.pi/2, np.pi/2),
+            'goal_th': 2*np.pi
         }
     )
 

@@ -112,18 +112,18 @@ class ReachEnvV0(BaseV0):
         reach_dist = np.linalg.norm(obs_dict['reach_err'], axis=-1)
         act_mag = np.linalg.norm(self.obs_dict['act'], axis=-1)/self.sim.model.na if self.sim.model.na !=0 else 0
         far_th = self.far_th*len(self.tip_sids) if np.squeeze(obs_dict['t'])>2*self.dt else np.inf
+        near_th = len(self.tip_sids)*.005
         rwd_dict = collections.OrderedDict((
             # Optional Keys
             ('reach',   -1.*reach_dist),
-            ('bonus',   1.*(reach_dist<.010) + 1.*(reach_dist<.005)),
+            ('bonus',   1.*(reach_dist<2*near_th) + 1.*(reach_dist<near_th)),
             ('act_reg', -1.*act_mag),
             ('penalty', -1.*(reach_dist>far_th)),
             # Must keys
             ('sparse',  -1.*reach_dist),
-            ('solved',  reach_dist<.005),
+            ('solved',  reach_dist<near_th),
             ('done',    reach_dist > far_th),
         ))
-
         rwd_dict['dense'] = np.sum([wt*rwd_dict[key] for key, wt in self.rwd_keys_wt.items()], axis=0)
         return rwd_dict
 
