@@ -1,5 +1,8 @@
 # Mujoco Environments
-`Adept` is a collection of environments/tasks simulated with the [Mujoco](http://www.mujoco.org/) physics engine and wrapped in the OpenAI `gym` API.
+`Adept` is a collection of environments/tasks simulated with the [Mujoco](http://www.mujoco.org/) physics engine and wrapped in the OpenAI `gym` API. 
+Below is an overview of the tasks in the Adept Suite. Full task details are available [here](https://github.com/vikashplus/adept/blob/master/adept/envs/Tasks.md)
+<img width="1240" alt="TasksALL" src="https://user-images.githubusercontent.com/23240128/134825260-0de32d74-e096-4ea5-906d-26302fade35f.png">
+
 
 ## Getting Started
 `Adept` uses git submodules to resolve dependencies. Please follow steps exactly as below to install correctly.
