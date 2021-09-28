@@ -1,7 +1,7 @@
 # Mujoco Environments
 `Adept` is a collection of environments/tasks simulated with the [Mujoco](http://www.mujoco.org/) physics engine and wrapped in the OpenAI `gym` API. 
 Below is an overview of the tasks in the Adept Suite. Full task details are available [here](https://github.com/vikashplus/adept/blob/master/adept/envs/Tasks.md), and baseline details are availale [here](https://github.com/vikashplus/adept/tree/master/adept/agents)
-<img width="1240" alt="TasksALL" src="https://user-images.githubusercontent.com/23240128/134825260-0de32d74-e096-4ea5-906d-26302fade35f.png">
+<img width="1240" alt="TasksALL" src="https://user-images.githubusercontent.com/23240128/135134038-1abec2a6-ee47-49fb-b886-34b909f9fc8c.png">
 
 
 ## Getting Started
@@ -37,7 +37,7 @@ $ python adept/utils/visualize_env.py --env_name ElbowPose1D1MRandom-v0
 It is possible to create and interface with Adept environments like any other OpenAI gym environments. For example, to use the "ElbowPose1D6MRandom-v0" environment it is possible simply to run:
 
 ```python
-import mj_envs
+import adept
 import gym
 env = gym.make('ElbowPose1D6MRandom-v0')
 env.reset()
