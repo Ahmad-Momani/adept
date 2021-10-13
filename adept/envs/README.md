@@ -1,12 +1,12 @@
-# Tasks implemented in the Adept Suite
-
-Overview of the tasks in the Adept Suite
+# AdeptSuite
+AdeptSuite consists of three models -- `Finger`, `Elbow` and `Hand`. Using these models we design a rich collection of tasks ranging from simple reaching movements to contact-rich movements like pen-twirling and baoding balls. The figure below provides an overview of the tasks included the Adept Suite.
 <img width="1240" alt="TasksALL" src="https://user-images.githubusercontent.com/23240128/134825260-0de32d74-e096-4ea5-906d-26302fade35f.png">
+Furthermore, all AdeptSuite tasks have multiple difficulty variations and non-stationary variations --
 
 
-
-
-## 1. Task Details and Difficulty Variations
+## 1. Task Descriptions and Difficulty Variations
+<details>
+  <summary>Click to read more about task descriptions and their difficulty variations</summary>
 
 | Tasks  | Details +  Difficulty Variations|
 |-----------|--------------------|
@@ -19,8 +19,11 @@ Overview of the tasks in the Adept Suite
 |<img src="https://user-images.githubusercontent.com/23240128/134833381-a31dce47-6c67-4911-9525-7c13f63cade6.png" width="800">|**Hand Object Hold -**  A full forearm-wrist-hand moves an object in the hand to a given orientation without dropping. The complexity of this task is due to the intermittent contacts between the object and multiple fingers needing co-ordination to stabilize the object. <br><br> Objective--: Reposition an object to reach a given target without dropping it. <br>Easy variant: Reposition to a fixed position (_HandObjHoldFixed-v0_) <br> Hard variant: Reposition a random object to random positions (_HandObjHoldRandom-v0_) <br> More variant: sparse rewards, dense rewards, random resets, reset free|
 |<img src="https://user-images.githubusercontent.com/23240128/134833391-962c5076-9215-4170-b02f-a41eb1092b37.png" width="800">|**Hand Pen Twirl -** A full forearm-wrist-hand rotate a pen in the hand to a given orientation without dropping. The complexity of this task is due to the intermittent contacts between the object and multiple fingers while trying to stabilize the object. <br><br> Objective--: Rotate the object to reach a given orientation (indicated by the green object in the scene) without dropping it. <br>Easy variant: Rotate to fixed orientation (_HandPenTwirlFixed-v0_) <br> Hard variant: Rotate of random orientation (_HandPenTwirlRandom-v0_) <br> More variant: sparse rewards, dense rewards, random resets, reset free|
 |<img src="https://user-images.githubusercontent.com/23240128/134833398-0a9318ec-a980-4cf3-b702-2d1939f5979e.png" width="800">|**Hand Baoding Balls -** A baoding ball task involving simultaneous rotation of two free-floating spheres over the palm. This task requires both dexterity and coordination. <br><br> Objective--: Achieve relative rotation of the balls around each other without dropping them. <br>Easy variant: Swap the position of the balls (_BaodingFixed-v1_) <br> Hard variant: Achieve contineous rotations (_BaodingRandom-v1_) <br> More variant: Sparse rewards, 3 different dense reward options to choose from|
+</details>
 
-## Non-Stationarity variations
+## 2. Non-Stationarity variations
+<details>
+  <summary>Click to read more about task's non-stationarity variations</summary>
 
 |                    | **Environment**                | **Difficulty**  | **Sarcopenia**       | **Fatigue** | **Tendon-transfer** |
 |--------------------|----------------------------|------------|------------------|---------|-----------------|
