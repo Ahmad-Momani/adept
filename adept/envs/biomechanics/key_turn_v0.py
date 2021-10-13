@@ -19,11 +19,6 @@ class KeyTurnEnvV0(BaseV0):
 
     def __init__(self,
                 model_path:str,
-                normalize_act:bool,
-                seed = None,
-                goal_th = 3.14,
-                obs_keys:list = DEFAULT_OBS_KEYS,
-                weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
                 **kwargs):
 
         # EzPickle.__init__(**locals()) is capturing the input dictionary of the init method of this class.
@@ -40,23 +35,14 @@ class KeyTurnEnvV0(BaseV0):
         # created in __init__ to complete the setup.
         super().__init__(model_path=model_path)
 
-        self._setup(
-                    goal_th=goal_th,
-                    obs_keys=obs_keys,
-                    weighted_reward_keys=weighted_reward_keys,
-                    normalize_act=normalize_act,
-                    rwd_viz=False,
-                    seed=seed,
-                    **kwargs)
+        self._setup(**kwargs)
 
     def _setup(self,
-            goal_th:float,
-            obs_keys:list,
-            weighted_reward_keys:dict,
-            normalize_act,
-            rwd_viz,
-            seed,
-            key_init_range:tuple=(0,0)
+            goal_th:float=3.14,
+            obs_keys:list = DEFAULT_OBS_KEYS,
+            weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+            key_init_range:tuple=(0,0),
+            **kwargs,
         ):
         self.goal_th = goal_th
         self.keyhead_sid = self.sim.model.site_name2id("keyhead")
@@ -66,9 +52,8 @@ class KeyTurnEnvV0(BaseV0):
 
         super()._setup(obs_keys=obs_keys,
                     weighted_reward_keys=weighted_reward_keys,
-                    normalize_act=normalize_act,
-                    rwd_viz=rwd_viz,
-                    seed=seed)
+                    **kwargs,
+        )
         self.init_qpos[:-1] *= 0 # Use fully open as init pos
 
     def get_obs_vec(self):

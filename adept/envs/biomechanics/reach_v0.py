@@ -15,17 +15,7 @@ class ReachEnvV0(BaseV0):
         "penalty": 50,
     }
 
-    def __init__(self,
-                model_path:str,
-                normalize_act:bool,
-                target_reach_range:dict,
-                seed = None,
-                obs_keys:list = DEFAULT_OBS_KEYS,
-                weighted_reward_keys:dict = DEFAULT_RWD_KEYS_AND_WEIGHTS,
-                far_th = .35,
-                **kwargs,
-            ):
-
+    def __init__(self, model_path:str, **kwargs):
         # EzPickle.__init__(**locals()) is capturing the input dictionary of the init method of this class.
         # In order to successfully capture all arguments we need to call gym.utils.EzPickle.__init__(**locals())
         # at the leaf level, when we do inheritance like we do here.
@@ -40,38 +30,23 @@ class ReachEnvV0(BaseV0):
         # created in __init__ to complete the setup.
         super().__init__(model_path=model_path)
 
-        self._setup(target_reach_range=target_reach_range,
-                normalize_act=normalize_act,
-                obs_keys=obs_keys,
-                weighted_reward_keys=weighted_reward_keys,
-                seed=seed,
-                far_th = far_th
-                )
+        self._setup(**kwargs)
 
 
     def _setup(self,
-            far_th:int,
-            normalize_act:bool,
             target_reach_range:dict,
-            obs_keys:list,
-            weighted_reward_keys:dict,
-            frame_skip = 10,
-            seed = None,
-            is_hardware = False,
-            config_path = None,
+            far_th = .35,
+            obs_keys:list = DEFAULT_OBS_KEYS,
+            weighted_reward_keys:dict = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+            **kwargs,
         ):
-
         self.far_th = far_th
         self.target_reach_range = target_reach_range
-
         super()._setup(obs_keys=obs_keys,
                 weighted_reward_keys=weighted_reward_keys,
-                normalize_act=normalize_act,
                 sites=self.target_reach_range.keys(),
-                frame_skip=frame_skip,
-                seed=seed,
-                is_hardware=is_hardware,
-                config_path=config_path)
+                **kwargs,
+                )
 
     def get_obs_vec(self):
         self.obs_dict['t'] = np.array([self.sim.data.time])

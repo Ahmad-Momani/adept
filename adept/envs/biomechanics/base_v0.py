@@ -15,15 +15,9 @@ class BaseV0(env_base.MujocoEnv):
             weighted_reward_keys:dict,
             sites:list = None,
             frame_skip = 10,
-            seed = None,  # <- doesn't seem to be needed
-            is_hardware = False,  # <- doesn't seem to be needed
-            config_path = None,  # <- doesn't seem to be needed
-            rwd_viz = False,  # <- doesn't seem to be needed
-            normalize_act = True, # <- doesn't seem to be needed
+            muscle_condition='',
             **kwargs,
         ):
-
-
         if self.sim.model.na>0 and 'act' not in obs_keys:
             obs_keys.append('act')
 
@@ -35,19 +29,12 @@ class BaseV0(env_base.MujocoEnv):
                 self.tip_sids.append(self.sim.model.site_name2id(site))
                 self.target_sids.append(self.sim.model.site_name2id(site+'_target'))
 
-        self.muscle_condition =  kwargs.pop('condition_muscles', '')
-
+        self.muscle_condition = muscle_condition
         self.initializeConditions()
-
 
         super()._setup(obs_keys=obs_keys,
                     weighted_reward_keys=weighted_reward_keys,
                     frame_skip=frame_skip,
-                    seed=seed,# <- doesn't seem to be needed
-                    is_hardware=is_hardware, # <- doesn't seem to be needed
-                    config_path=config_path, # <- doesn't seem to be needed
-                    rwd_viz=rwd_viz, # <- doesn't seem to be needed
-                    normalize_act=normalize_act, # <- doesn't seem to be needed
                     **kwargs)
 
     def initializeConditions(self):

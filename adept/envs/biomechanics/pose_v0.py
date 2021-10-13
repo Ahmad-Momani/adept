@@ -15,20 +15,7 @@ class PoseEnvV0(BaseV0):
         "penalty": 50,
     }
 
-    def __init__(self,
-                model_path:str,
-                normalize_act:bool,
-                seed = None,
-                viz_site_targets:tuple = None,  # site to use for targets visualization []
-                target_jnt_range:dict = None,   # joint ranges as tuples {name:(min, max)}_nq
-                target_jnt_value:list = None,   # desired joint vector [des_qpos]_nq
-                reset_type = "init",            # none; init; random
-                target_type = "generate",       # generate; switch; fixed
-                obs_keys:list = DEFAULT_OBS_KEYS,
-                weighted_reward_keys:dict = DEFAULT_RWD_KEYS_AND_WEIGHTS,
-                pose_thd = 0.35,
-                **kwargs):
-
+    def __init__(self, model_path:str, **kwargs):
         # EzPickle.__init__(**locals()) is capturing the input dictionary of the init method of this class.
         # In order to successfully capture all arguments we need to call gym.utils.EzPickle.__init__(**locals())
         # at the leaf level, when we do inheritance like we do here.
@@ -43,36 +30,19 @@ class PoseEnvV0(BaseV0):
         # created in __init__ to complete the setup.
         super().__init__(model_path=model_path)
 
-        self._setup(
-                normalize_act=normalize_act,
-                viz_site_targets=viz_site_targets,
-                target_jnt_range=target_jnt_range,
-                target_jnt_value=target_jnt_value,
-                reset_type=reset_type,
-                target_type=target_type,
-                obs_keys=obs_keys,
-                weighted_reward_keys=weighted_reward_keys,
-                seed=seed,
-                pose_thd = pose_thd,
-                **kwargs
-            )
+        self._setup(**kwargs)
 
     def _setup(self,
-            normalize_act:bool,
-            viz_site_targets:tuple,
-            target_jnt_range:dict,
-            target_jnt_value:list,
-            reset_type,
-            target_type,
-            obs_keys:list,
-            weighted_reward_keys:dict,
-            pose_thd:int,
-            frame_skip = 10,
-            seed = None,
-            is_hardware = False,
-            config_path = None,
+            viz_site_targets:tuple = None,  # site to use for targets visualization []
+            target_jnt_range:dict = None,   # joint ranges as tuples {name:(min, max)}_nq
+            target_jnt_value:list = None,   # desired joint vector [des_qpos]_nq
+            reset_type = "init",            # none; init; random
+            target_type = "generate",       # generate; switch; fixed
+            obs_keys:list = DEFAULT_OBS_KEYS,
+            weighted_reward_keys:dict = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+            pose_thd = 0.35,
+            **kwargs,
         ):
-
         self.reset_type = reset_type
         self.target_type = target_type
         self.pose_thd = pose_thd
@@ -92,11 +62,7 @@ class PoseEnvV0(BaseV0):
         super()._setup(obs_keys=obs_keys,
                 weighted_reward_keys=weighted_reward_keys,
                 sites=viz_site_targets,
-                frame_skip=frame_skip,
-                seed=seed,
-                is_hardware=is_hardware,
-                config_path=config_path,
-                normalize_act=normalize_act,
+                **kwargs,
                 )
 
     def get_obs_vec(self):

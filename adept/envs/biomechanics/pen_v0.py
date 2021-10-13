@@ -19,15 +19,7 @@ class PenTwirlFixedEnvV0(BaseV0):
         'bonus':10.0
     }
 
-    def __init__(self,
-                model_path:str,
-                normalize_act:bool,
-                frame_skip:int,
-                seed = None,
-                obs_keys:list = DEFAULT_OBS_KEYS,
-                weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
-                **kwargs):
-
+    def __init__(self, model_path:str, **kwargs):
         # EzPickle.__init__(**locals()) is capturing the input dictionary of the init method of this class.
         # In order to successfully capture all arguments we need to call gym.utils.EzPickle.__init__(**locals())
         # at the leaf level, when we do inheritance like we do here.
@@ -42,24 +34,14 @@ class PenTwirlFixedEnvV0(BaseV0):
         # created in __init__ to complete the setup.
         super().__init__(model_path=model_path)
 
-        self.sim.data.qpos[:]='0 0 0.172788 0 0 0 0 0.212085 0 0.212085 0 0.212085 0 0.212085 0 0.212085 0 0.212085 0 0.212085 0 0 0'.split(' ')+6*[0]
+        self._setup(**kwargs)
 
-        self._setup(obs_keys=obs_keys,
-                    weighted_reward_keys=weighted_reward_keys,
-                    normalize_act=normalize_act,
-                    frame_skip=frame_skip,
-                    rwd_viz=False,
-                    seed=seed)
 
     def _setup(self,
-            obs_keys:list,
-            weighted_reward_keys:dict,
-            normalize_act,
-            frame_skip,
-            rwd_viz,
-            seed,
+            obs_keys:list = DEFAULT_OBS_KEYS,
+            weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+            **kwargs,
         ):
-
         self.target_obj_bid = self.sim.model.body_name2id("target")
         self.S_grasp_sid = self.sim.model.site_name2id('S_grasp')
         self.obj_bid = self.sim.model.body_name2id('Object')
@@ -72,11 +54,9 @@ class PenTwirlFixedEnvV0(BaseV0):
         self.tar_length = np.linalg.norm(self.sim.model.site_pos[self.tar_t_sid] - self.sim.model.site_pos[self.tar_b_sid])
 
         super()._setup(obs_keys=obs_keys,
-            weighted_reward_keys=weighted_reward_keys,
-            normalize_act=normalize_act,
-            rwd_viz=rwd_viz,
-            frame_skip=frame_skip,
-            seed=seed)
+                        weighted_reward_keys=weighted_reward_keys,
+                        **kwargs,
+                    )
         self.init_qpos[:-6] *= 0 # Use fully open as init pos
 
     def get_obs_vec(self):

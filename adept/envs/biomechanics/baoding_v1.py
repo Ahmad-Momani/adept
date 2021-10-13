@@ -33,15 +33,7 @@ class BaodingFixedEnvV1(BaseV0):
        'bonus':1.0
     }
 
-    def __init__(self,
-                model_path:str,
-                normalize_act:bool,
-                reward_option:int,
-                seed = None,
-                obs_keys:list = DEFAULT_OBS_KEYS,
-                weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
-                **kwargs):
-
+    def __init__(self, model_path:str, **kwargs):
         # EzPickle.__init__(**locals()) is capturing the input dictionary of the init method of this class.
         # In order to successfully capture all arguments we need to call gym.utils.EzPickle.__init__(**locals())
         # at the leaf level, when we do inheritance like we do here.
@@ -56,21 +48,14 @@ class BaodingFixedEnvV1(BaseV0):
         # created in __init__ to complete the setup.
         super().__init__(model_path=model_path)
 
-        self._setup(obs_keys=obs_keys,
-                    weighted_reward_keys=weighted_reward_keys,
-                    normalize_act=normalize_act,
-                    reward_option=reward_option,
-                    rwd_viz=False,
-                    seed=seed)
+        self._setup(**kwargs)
 
 
     def _setup(self,
-            obs_keys:list,
-            weighted_reward_keys:dict,
-            normalize_act,
-            reward_option,
-            rwd_viz,
-            seed,
+            reward_option:int=0,
+            obs_keys:list = DEFAULT_OBS_KEYS,
+            weighted_reward_keys:list = DEFAULT_RWD_KEYS_AND_WEIGHTS,
+            **kwargs,
         ):
 
         # user parameters
@@ -100,10 +85,8 @@ class BaodingFixedEnvV1(BaseV0):
 
         super()._setup(obs_keys=obs_keys,
                     weighted_reward_keys=weighted_reward_keys,
-                    normalize_act=normalize_act,
-                    rwd_viz=rwd_viz,
-                    seed=seed)
-
+                    **kwargs,
+                )
         self.init_qpos[:-14] *= 0 # Use fully open as init pos
 
 
