@@ -1,7 +1,7 @@
 # USAGE
-# ./hydra/train_adept_tasks.sh          # runs natively
-# ./hydra/train_adept_tasks.sh local    # use local launcher
-# ./hydra/train_adept_tasks.sh slurm    # use slurm launcher
+# ./train_adept_suits.sh biomechanics         # runs natively
+# ./train_adept_suits.sh biomechanics local    # use local launcher
+# ./train_adept_suits.sh biomechanics slurm    # use slurm launcher
 
 # Configure launch
 if [ "$#" -ne 2 ] ; then
